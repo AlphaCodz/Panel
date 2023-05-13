@@ -1,0 +1,102 @@
+{% extends "base/header.html" %}
+{% load static %}
+
+{% block body %}
+  
+	<!-- [ Header ] end -->
+	
+	
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Medical Forms</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'app:index' %}"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Forms</a></li>
+                            <li class="breadcrumb-item"><a href="#!">Diagnosis Form</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>Diagnosis Form</strong></h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="floating-label" for="Patient First Name">Patient's First Name</label>
+                                        <input type="text" class="form-control" id="pfn" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="floating-label" for="Text">Patient's Last Name</label>
+                                        <input type="text" class="form-control" id="Text" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="floating-label" for="Text">Patient's Date of Birth</label>
+                                        <input type="date" class="form-control" id="Text" placeholder="Date of Birth">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                    <label class="floating-label" for="inputAddress">Address</label>
+                                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="floating-label" for="Diagnosis">Diagnosis</label>
+                                        <textarea name="diagnosis" class="form-control" id="" aria-label="With textarea" placeholder="Diagnosis"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="floating-label" for="Diagnosis">Additional Notes</label>
+                                        <textarea name="diagnosis" class="form-control" id="" placeholder="Additional Notes"></textarea>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <!-- [ Main Content ] end -->
+
+    </div>
+</section>
+
+    <!-- Required Js -->
+    <script src="{% static 'dist/assets/js/vendor-all.min.js' %}"></script>
+    <script src="{% static 'dist/assets/js/plugins/bootstrap.min.js' %}"></script>
+    <script src="{% static 'dist/assets/js/ripple.js' %}"></script>
+    <script src="{% static 'dist/assets/js/pcoded.min.js' %}"></script>
+
+
+
+
+</body>
+
+</html>
+{% endblock body %}

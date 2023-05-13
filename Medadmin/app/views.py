@@ -105,3 +105,8 @@ def signin(request):
             return redirect("app:signin")
              
     return render(request, "basic_files/auth-signin.html")
+
+class Forms:
+    def diagnosis_form(request):
+        return render(request, "basic_files/diag_form.html")
+        
