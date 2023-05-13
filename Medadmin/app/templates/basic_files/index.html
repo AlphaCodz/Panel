@@ -21,15 +21,8 @@
 					<div class="main-menu-header">
 						<img class="img-radius" src="{% static 'dist/assets/images/user/avatar-2.jpg' %}" alt="User-Profile-Image">
 						<div class="user-details">
-							<div id="more-details">UX Designer <i class="fa fa-caret-down"></i></div>
+							<div id="more-details">{{user.first_name}} {{user.last_name}}</div>
 						</div>
-					</div>
-					<div class="collapse" id="nav-user-link">
-						<ul class="list-unstyled">
-							<li class="list-group-item"><a href="user-profile.html"><i class="feather icon-user m-r-5"></i>View Profile</a></li>
-							<li class="list-group-item"><a href="#!"><i class="feather icon-settings m-r-5"></i>Settings</a></li>
-							<li class="list-group-item"><a href="auth-normal-sign-in.html"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
-						</ul>
 					</div>
 				</div>
 				
@@ -253,8 +246,9 @@
                     <div class="col-sm-6">
                         <div class="card support-bar overflow-hidden">
                             <div class="card-body pb-0">
-                                <h2 class="m-0">350</h2>
-                                <span class="text-c-blue">Support Requests</span>
+                                
+                                <h2 class="m-0">{{total_no_of_docs}}</h2>
+                                <span class="text-c-blue">Total Number of Doctors</span>
                                 <p class="mb-3 mt-3">Total number of support requests that come in.</p>
                             </div>
                             <div id="support-chart"></div>
@@ -280,7 +274,7 @@
                         <div class="card support-bar overflow-hidden">
                             <div class="card-body pb-0">
                                 <h2 class="m-0">350</h2>
-                                <span class="text-c-green">Support Requests</span>
+                                <span class="text-c-green">Total Number of Patients</span>
                                 <p class="mb-3 mt-3">Total number of support requests that come in.</p>
                             </div>
                             <div id="support-chart1"></div>
@@ -442,15 +436,15 @@
                                                     <span class="custom-control-label"></span>
                                                 </label>
                                             </div>
-                                            Assigned
+                                            Name
                                         </th>
-                                        <th>Name</th>
-                                        <th>Due Date</th>
+                                        <th>Specialty</th>
+                                        <th>Experience (Yrs)</th>
                                         <th class="text-right">Priority</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for docs in data %}
+                                    {% for doc in docs %}
                                     <tr>
                                         <td>
                                             <div class="chk-option">
@@ -460,16 +454,21 @@
                                                 </label>
                                             </div>
                                             <div class="d-inline-block align-middle">
-                                                <img src="{% static 'dist/assets/images/user/avatar-4.jpg' %}" alt="user image" class="img-radius wid-40 align-top m-r-15">
+                                                <img src="{{doc.profile_image}}" style="border-radius: 50%; width: 50px; height: 50px;" alt="user image" class="img-radius wid-40 align-top m-r-15">
                                                 <div class="d-inline-block">
-                                                    <h6>{{docs.first_name}} {{docs.last_name}}</h6>
+                                                    <h6>{{doc.first_name}} {{doc.last_name}}</h6>
                                                     <p class="text-muted m-b-0">Graphics Designer</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>Able Pro</td>
-                                        <td>Jun, 26</td>
-                                        <td class="text-right"><label class="badge badge-light-danger">Low</label></td>
+                                        {% if doc.specialty == "OTHER" %}
+                                            <td>{{doc.other}}</td>
+                                        {% else %}
+                                            <td>{{doc.specialty}}</td> 
+                                        {% endif %}
+                                         
+                                        <td>{{doc.years_of_experience}}</td>
+                                        <td class="text-right"><label class="badge badge-light-success">High</label></td>
                                     </tr>
                                     {% endfor %}
                                     
