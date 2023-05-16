@@ -21,17 +21,21 @@ def index(request):
     if user_response.status_code == 200 and doc_data_url.status_code == 200:
         user_data = user_response.json().get('admin')
         doc_data = doc_data_url.json().get('doctors')
+        patients_data = patient_response.json().get('patients')
+        
             # Total Number of Doctors    
         doc_count = len(doc_data)
+            #Total Number of Patients
+        patient_count = len(patients_data)
         context = {
             "user": user_data,
             "docs": doc_data,
             "total_no_of_docs": doc_count,
+            "total_no_of_patients": patient_count,
             "patients_data": []
         }
         if patient_response.status_code == 200:
             patients_data = patient_response.json().get('patients')
-            print(patients_data)
             for patient in patients_data:
                 data = {
                     "first_name": patient.get('first_name'),
@@ -40,7 +44,7 @@ def index(request):
                     "username": patient.get('username'),
                     "is_patient": patient.get('is_patient'),
                     "is_medic": patient.get('is_medic'),
-                    "is_admin": patient.get('is_admin')
+                    "is_admin": patient.get('is_admin'),
                 }
                 context["patients_data"].append(data)
             return render(request, "basic_files/index.html", context)
