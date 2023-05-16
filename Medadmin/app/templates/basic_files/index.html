@@ -274,13 +274,13 @@
                                             </div>
                                             Name
                                         </th>
-                                        <th>Specialty</th>
-                                        <th>Experience (Yrs)</th>
-                                        <th class="text-right">Priority</th>
+                                        <th>Priority</th>
+                                        <!-- <th>Experience (Yrs)</th>
+                                        <th class="text-right">Priority</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for doc in docs %}
+                                    {% for patient in patients_data %}
                                     <tr>
                                         <td>
                                             <div class="chk-option">
@@ -290,20 +290,20 @@
                                                 </label>
                                             </div>
                                             <div class="d-inline-block align-middle">
-                                                <img src="{{doc.profile_image}}" style="border-radius: 50%; width: 50px; height: 50px;" alt="user image" class="img-radius wid-40 align-top m-r-15">
+                                                <img src="{% static 'dist/assets/images/user/avatar-2.jpg' %}" style="border-radius: 50%; width: 50px; height: 50px;" alt="user image" class="img-radius wid-40 align-top m-r-15">
                                                 <div class="d-inline-block">
-                                                    <h6>{{doc.first_name}} {{doc.last_name}}</h6>
-                                                    <p class="text-muted m-b-0">Graphics Designer</p>
+                                                    <h6>{{patient.first_name}} {{patient.last_name}}</h6>
+                                                    <p class="text-muted m-b-0">Assigned</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        {% if doc.specialty == "OTHER" %}
+                                        <!-- {% if doc.specialty == "OTHER" %}
                                             <td>{{doc.other}}</td>
                                         {% else %}
                                             <td>{{doc.specialty}}</td> 
                                         {% endif %}
-                                         
-                                        <td>{{doc.years_of_experience}}</td>
+                                          -->
+                                        <!-- <td>{{doc.years_of_experience}}</td> -->
                                         <td class="text-right"><label class="badge badge-light-success">High</label></td>
                                     </tr>
                                     {% endfor %}
