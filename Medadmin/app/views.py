@@ -4,6 +4,7 @@ from .models import PrimaryUser
 import re
 from django.contrib import messages, auth
 from django.contrib.auth.hashers import check_password
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -18,26 +19,50 @@ def index(request):
     user_response = requests.get(user_url, headers=headers)
     doc_data_url = requests.get(doc_data_url, headers=headers)
     patient_response = requests.get(patient_url, headers=headers)
+    
     if user_response.status_code == 200 and doc_data_url.status_code == 200:
+        
+        # Pagination
         user_data = user_response.json().get('admin')
         doc_data = doc_data_url.json().get('doctors')
         patients_data = patient_response.json().get('patients')
         
             # Total Number of Doctors    
         doc_count = len(doc_data)
+        
             #Total Number of Patients
         patient_count = len(patients_data)
+        
+            # Paginate
+        paginator = Paginator(doc_data, 7)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
         context = {
             "user": user_data,
-            "docs": doc_data,
+            "docs": page_obj,
             "total_no_of_docs": doc_count,
             "total_no_of_patients": patient_count,
-            "patients_data": []
+            "patients_data": [],
+            "current_page": page_obj.number,
+            "total_pages": paginator.num_pages,
+            "has_previous": page_obj.has_previous(),
+            "has_next": page_obj.has_next()
         }
         if patient_response.status_code == 200:
             patients_data = patient_response.json().get('patients')
-            for patient in patients_data:
+            
+            # Pagination
+            paginator = Paginator(patients_data, 7)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            
+            for patient in page_obj:
                 data = {
+                    "current_page": page_obj.number,
+                    "total_pages": paginator.num_pages,
+                    "has_previous": page_obj.has_previous(),
+                    "has_next": page_obj.has_next(), 
                     "first_name": patient.get('first_name'),
                     "last_name": patient.get('last_name'),
                     "email": patient.get('email'),
