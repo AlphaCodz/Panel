@@ -36,8 +36,8 @@
                                 <span class="text-c-blue">Total Number of Doctors</span>
                                 <p class="mb-3 mt-3">Total number of support requests that come in.</p>
                             </div>
-                            <!-- <div id="support-chart"></div> -->
-                            <div class="card-footer bg-primary text-white">
+                            <div id="support-chart"></div>
+                            <!-- <div class="card-footer bg-primary text-white">
                                 <div class="row text-center">
                                     <div class="col">
                                         <h4 class="m-0 text-white">10</h4>
@@ -52,7 +52,7 @@
                                         <span>Solved</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -62,8 +62,8 @@
                                 <span class="text-c-green">Total Number of Patients</span>
                                 <p class="mb-3 mt-3">Total number of support requests that come in.</p>
                             </div>
-                            <!-- <div id="support-chart1"></div> -->
-                            <div class="card-footer bg-success text-white">
+                            <div id="support-chart1"></div>
+                            <!-- <div class="card-footer bg-success text-white">
                                 <div class="row text-center">
                                     <div class="col">
                                         <h4 class="m-0 text-white">10</h4>
@@ -78,7 +78,7 @@
                                         <span>Solved</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -332,13 +332,6 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <!-- {% if doc.specialty == "OTHER" %}
-                                            <td>{{doc.other}}</td>
-                                        {% else %}
-                                            <td>{{doc.specialty}}</td> 
-                                        {% endif %}
-                                          -->
-                                        <!-- <td>{{doc.years_of_experience}}</td> -->
                                         <td class="text-right"><label class="badge badge-light-success">High</label></td>
                                     </tr>
                                     {% endfor %}
@@ -346,6 +339,68 @@
                                 </tbody>
                             </table>
                         </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                {% if patients_data.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ patients_data.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span> 
+                                    </a>
+                                </li>
+                                {% endif %}
+                        
+                                {% for page in patients_data.paginator.page_range %}
+                                {% if patients_data.number == page %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">{{ page }}</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                        
+                                {% if patients_data.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ patients_data.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        <!-- <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                {% if patients_data.has_previous %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ patients_data.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true" class="current-page">&laquo;</span> 
+                                </a>
+                              </li>
+                              {% endif %}
+                    
+                               {% for page in patients_data.paginator.page_range %}
+                               {% if patients_data.number == page %} 
+                              <li class="page-item active">
+                                <a class="page-link" href="#">{{ page }}</a>
+                            </li>
+                                {% else %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                            </li>
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if patients_data.has_next %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{patients_data.next_page_number}}" aria-label="Next">
+                                  <span aria-hidden="true">&raquo;</span>
+                                </a>
+                              </li>
+                              {% endif %}
+                            </ul>
+                          </nav> -->
                     </div>
                 </div>
             </div>
@@ -375,15 +430,14 @@
                                     <img src="{% static 'dist/assets/images/user/avatar-2.jpg' %}" alt="user image" class="img-radius profile-img cust-img m-b-15">
                                 </div>
                                 <div class="col">
-                                    <h6 class="m-b-15">John Deo <span class="float-right f-13 text-muted"> a week ago</span></h6>
+                                    <h6 class="m-b-15">Samuel Chima <span class="float-right f-13 text-muted"> a week ago</span></h6>
                                     <a href="#!"><i class="feather icon-star-on f-18 text-c-yellow"></i></a>
                                     <a href="#!"><i class="feather icon-star-on f-18 text-c-yellow"></i></a>
                                     <a href="#!"><i class="feather icon-star-on f-18 text-c-yellow"></i></a>
                                     <a href="#!"><i class="feather icon-star f-18 text-muted"></i></a>
                                     <a href="#!"><i class="feather icon-star f-18 text-muted"></i></a>
-                                    <p class="m-t-15 m-b-15 text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                                        took a
-                                        galley of type and scrambled it to make a type specimen book.</p>
+                                    <p class="m-t-15 m-b-15 text-muted">Medico is a game-changer! It has made accessing healthcare services so much easier and convenient. 
+                                        The video call feature is a lifesaver, and the doctors are top-notch. Highly recommended!</p>
                                     <a href="#!" class="m-r-30 text-muted"><i class="feather icon-thumbs-up m-r-15"></i>Helpful?</a>
                                     <a href="#!"><i class="feather icon-heart-on text-c-red m-r-15"></i></a>
                                     <a href="#!"><i class="feather icon-edit text-muted"></i></a>
@@ -394,28 +448,33 @@
                                     <img src="{% static 'dist/assets/images/user/avatar-4.jpg' %}" alt="user image" class="img-radius profile-img cust-img m-b-15">
                                 </div>
                                 <div class="col">
-                                    <h6 class="m-b-15">Allina D’croze <span class="float-right f-13 text-muted"> a week ago</span></h6>
+                                    <h6 class="m-b-15">Adeyemi Olawale <span class="float-right f-13 text-muted"> a week ago</span></h6>
                                     <a href="#!"><i class="feather icon-star-on f-18 text-c-yellow"></i></a>
-                                    <a href="#!"><i class="feather icon-star f-18 text-muted"></i></a>
-                                    <a href="#!"><i class="feather icon-star f-18 text-muted"></i></a>
-                                    <a href="#!"><i class="feather icon-star f-18 text-muted"></i></a>
-                                    <a href="#!"><i class="feather icon-star f-18 text-muted"></i></a>
-                                    <p class="m-t-15 m-b-15 text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                                        took a
-                                        galley of type and scrambled it to make a type specimen book.</p>
+                                    <a href="#!"><i class="feather icon-star-on f-18 text-c-yellow"></i></a>
+                                    <a href="#!"><i class="feather icon-star-on f-18 text-c-yellow"></i></a>
+                                    <a href="#!"><i class="feather icon-star-on f-18 text-c-yellow"></i></a>
+                                    <a href="#!"><i class="feather icon-star-on f-18 text-muted"></i></a>
+                                    <p class="m-t-15 m-b-15 text-muted">Medico has been a lifesaver for me!
+                                        It's so convenient to be able to connect with doctors from the comfort of my own home. 
+                                        The video calls are clear, the chat feature is responsive, and the doctors are knowledgeable and professional. 
+                                        I highly recommend Medico to anyone looking for a reliable and easy-to-use medical software.</p>
                                     <a href="#!" class="m-r-30 text-muted"><i class="feather icon-thumbs-up m-r-15"></i>Helpful?</a>
                                     <a href="#!"><i class="feather icon-heart-on text-c-red m-r-15"></i></a>
                                     <a href="#!"><i class="feather icon-edit text-muted"></i></a>
                                     <blockquote class="blockquote m-t-15 m-b-0">
-                                        <h6>Allina D’croze</h6>
-                                        <p class="m-b-0 text-muted">Lorem Ipsum is simply dummy text of the industry.</p>
+                                        <h6>Adamu Haruna</h6>
+                                        <p class="m-b-0 text-muted">I completely agree with the last review about Medico. 
+                                            It's been a game-changer for me. I've been able to easily connect with doctors through video calls and chats, 
+                                            and the app is user-friendly. 
+                                            It's made getting medical advice and prescriptions so much more convenient. 
+                                            Highly recommend!</p>
                                     </blockquote>
                                 </div>
                             </div>
                         </div>
-                        <div class="text-right  m-r-20">
+                        <!-- <div class="text-right  m-r-20">
                             <a href="#!" class="b-b-primary text-primary">View all Customer Reviews</a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="row">
@@ -565,6 +624,8 @@
     <script src="{% static 'dist/assets/js/vendor-all.min.js' %}"></script>
     <script src="{% static 'dist/assets/js/plugins/bootstrap.min.js' %}"></script>
     <script src="{% static 'dist/assets/js/ripple.js' %}"></script>
+    <!-- <script src="{% static 'dist/assets/js/ripple.js' %}"></script> -->
+    <script src="{% static 'dist/assets/js/pcoded.min.js' %}"></script>
 
 <!-- Apex Chart -->
 <script src="{% static 'dist/assets/js/plugins/apexcharts.min.js' %}"></script>
