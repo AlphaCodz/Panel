@@ -36,7 +36,7 @@
                                 <span class="text-c-blue">Total Number of Doctors</span>
                                 <p class="mb-3 mt-3">Total number of support requests that come in.</p>
                             </div>
-                            <div id="support-chart"></div>
+                            <!-- <div id="support-chart"></div> -->
                             <div class="card-footer bg-primary text-white">
                                 <div class="row text-center">
                                     <div class="col">
@@ -62,7 +62,7 @@
                                 <span class="text-c-green">Total Number of Patients</span>
                                 <p class="mb-3 mt-3">Total number of support requests that come in.</p>
                             </div>
-                            <div id="support-chart1"></div>
+                            <!-- <div id="support-chart1"></div> -->
                             <div class="card-footer bg-success text-white">
                                 <div class="row text-center">
                                     <div class="col">
@@ -214,7 +214,7 @@
                                         </th>
                                         <th>Specialty</th>
                                         <th>Experience (Yrs)</th>
-                                        <th class="text-right">Priority</th>
+                                        <!-- <th class="text-right">Priority</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -242,13 +242,48 @@
                                         {% endif %}
                                          
                                         <td>{{doc.years_of_experience}}</td>
-                                        <td class="text-right"><label class="badge badge-light-success">High</label></td>
+                                        <!-- <td class="text-right"><label class="badge badge-light-success">High</label></td> -->
                                     </tr>
                                     {% endfor %}
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                        
+                        <!-- PATIENT DATA PAGINATION -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                {% if docs.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ docs.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span> 
+                                    </a>
+                                </li>
+                                {% endif %}
+                        
+                                {% for page in docs.paginator.page_range %}
+                                {% if docs.number == page %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">{{ page }}</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                        
+                                {% if docs.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ docs.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        <!-- END OF PATIENT DATA PAGINATION -->
+                        
                     </div>
                 </div>
             </div>
@@ -274,9 +309,9 @@
                                             </div>
                                             Name
                                         </th>
-                                        <th>Priority</th>
-                                        <!-- <th>Experience (Yrs)</th>
-                                        <th class="text-right">Priority</th> -->
+                                        <!-- <th>Priority</th> -->
+                                        <!-- <th>Experience (Yrs)</th> -->
+                                        <th class="text-right">Priority</th>
                                     </tr>
                                 </thead>
                                 <tbody>
