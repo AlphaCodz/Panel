@@ -5,9 +5,10 @@ import re
 from django.contrib import messages, auth
 from django.contrib.auth.hashers import check_password
 from django.core.paginator import Paginator
-
+from django.views.decorators.cache import cache_page
 # Create your views here.
 
+@cache_page(60 * 15, key_prefix='/app/')
 def index(request):
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
     headers = {'Authorization' : f'Bearer {token}'}

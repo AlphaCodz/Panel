@@ -70,6 +70,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+# settings.py
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-cache-key',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
