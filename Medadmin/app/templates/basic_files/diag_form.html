@@ -36,45 +36,45 @@
                         <h5><strong>Diagnosis Form</strong></h5>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="Patient First Name">Patient's First Name</label>
-                                        <input type="text" class="form-control" id="pfn" placeholder="First Name">
-                                    </div>
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <select class="form-select btn btn-outline-primary" name="patient_id" id="inputGroupSelect01" style="width: 300px;">
+                                {% include "basic_files/alerts.html" %}
+                                  <option selected>Patients</option>
+                                  {% for patient in patients %}
+                                    <option id="patient_id" value="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</option>
+                                  {% endfor %}
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="floating-label" for="Prescriptions">Prescriptions</label>
+                                <textarea name="prescription" class="form-control" id="prescription" aria-label="With textarea" placeholder="Prescriptions"></textarea>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                  <label class="floating-label" for="Diagnosis">Diagnosis</label>
+                                  <textarea name="diagnosis" class="form-control" id="diagnosis" aria-label="With textarea" placeholder="Diagnosis"></textarea>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="Text">Patient's Last Name</label>
-                                        <input type="text" class="form-control" id="Text" placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="Text">Patient's Date of Birth</label>
-                                        <input type="date" class="form-control" id="Text" placeholder="Date of Birth">
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                    <label class="floating-label" for="inputAddress">Address</label>
-                                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                                </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="Diagnosis">Diagnosis</label>
-                                        <textarea name="diagnosis" class="form-control" id="" aria-label="With textarea" placeholder="Diagnosis"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="Diagnosis">Additional Notes</label>
-                                        <textarea name="diagnosis" class="form-control" id="" placeholder="Additional Notes"></textarea>
-                                    </div>
-                                </div>
-                                
+                              </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label class="floating-label" for="AdditionalNotes">Additional Notes</label>
+                                <textarea name="additional_notes" class="form-control" id="additional_notes" placeholder="Additional Notes"></textarea>
+                              </div>
+                            </div>
+                            <div class="col-8">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      
                             </div>
                         </form>
                     </div>

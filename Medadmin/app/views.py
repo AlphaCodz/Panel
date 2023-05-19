@@ -6,6 +6,7 @@ from django.contrib import messages, auth
 from django.contrib.auth.hashers import check_password
 from django.core.paginator import Paginator
 from django.views.decorators.cache import cache_page
+from django.views import View
 # Create your views here.
 
 @cache_page(60 * 15, key_prefix='/app/')
@@ -156,9 +157,94 @@ def signin(request):
              
     return render(request, "basic_files/auth-signin.html")
 
+
+# class DiagnosisFormView(View):
+#     def post(self, request):
+#         token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"  # Your token here
+#         headers = {'Authorization': f'Bearer {token}'}
+#         users_url = "https://medico-production-fa1c.up.railway.app/api/all/users"
+        
+#         # Retrieve the list of patients from the API
+#         response = requests.get(users_url, headers=headers)
+#         if response.status_code == 200:
+#             users = response.json().get("patients")
+#         else:
+#             # Handle the error case when the API request fails
+#             users = []
+        
+#         # Extract the necessary data from the POST request
+#         patient_id = request.POST.get("patient_id")
+#         prescription = request.POST.get("prescription")
+#         additional_notes = request.POST.get("additional_notes")
+#         diagnose_url = f"https://medico-production-fa1c.up.railway.app/api/create/diag/{patient_id}"
+        
+#         # Prepare the payload for the POST request
+#         payload = {
+#             "patient_id": patient_id,
+#             "prescription": prescription,
+#             "additional_notes": additional_notes
+#         }
+        
+#         # Make the POST request to submit the diagnosis
+#         response = requests.post(diagnose_url, json=payload)
+#         if response.status_code == 200:
+#             messages.success(request, "Diagnosed successfully")
+#             return redirect("app:diagnosis_form")
+#         else:
+#             error_message = response.json().get('error')
+#             messages.error(request, error_message)
+#             print(f"ERROR: {error_message}")
+#             return redirect("app:diagnosis_form")
+        
+#         # Pass the users data to the template context
+#         context = {
+#             "patients": users
+#         }
+        
+#         return render(request, "basic_files/diag_form.html", context)
+
 class Forms:
     def diagnosis_form(request):
-        return render(request, "basic_files/diag_form.html")
+        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
+        headers = {'Authorization': f'Bearer {token}'}
+
+        users = "https://medico-production-fa1c.up.railway.app/api/all/users"
+
+        if request.method == "POST":
+            patient_id = request.POST.get("patient_id")
+            prescription = request.POST.get("prescription")
+            additional_notes = request.POST.get("additional_notes")
+            diagnosis = request.POST.get("diagnosis")
+            diagnose_url = f"https://medico-production-fa1c.up.railway.app/api/create/diag/{patient_id}"
+
+            payload = {
+                "patient_id": patient_id,
+                "prescription": prescription,
+                "additional_notes": additional_notes,
+                "diagnosis": diagnosis
+            }
+            resp = requests.post(diagnose_url, payload)
+            if resp.status_code == 200:
+                messages.success(request, "Diagnosed Successfully")
+            else:
+                error_message = resp.json().get('error')
+                if error_message:
+                    messages.error(request, error_message)
+                    print(f"ERROR: {error_message}")
+                else:
+                    messages.error(request, "An error occured during diagnosis")
+            return redirect("app:diagnosis_form")
+
+        response = requests.get(users, headers)
+        if response.status_code == 200:
+            users = response.json().get("patients")
+
+        context = {
+            "patients": users
+        }
+
+        return render(request, "basic_files/diag_form.html", context)
+
     
 
 def HospitalCardGenerator(request):
