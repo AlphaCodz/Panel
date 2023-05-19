@@ -152,4 +152,8 @@ def signin(request):
 class Forms:
     def diagnosis_form(request):
         return render(request, "basic_files/diag_form.html")
+    
+
+def HospitalCardGenerator(request):
+    return render(request, "sections/id_card.html")
         
