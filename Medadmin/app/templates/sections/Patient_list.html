@@ -1,0 +1,86 @@
+{% load static %}
+<div class="col-xl-6 col-md-12">
+    <div class="card table-card">
+        <div class="card-header">
+            <h5>Patients</h5>
+            <div class="card-header-right">
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="chk-option">
+                                    <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                                Name
+                            </th>
+                            <!-- <th>Priority</th> -->
+                            <!-- <th>Experience (Yrs)</th> -->
+                            <th class="text-right">Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in patients_data %}
+                        <tr>
+                            <td>
+                                <div class="chk-option">
+                                    <label class="check-task custom-control custom-checkbox d-flex justify-content-center done-task">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                                <div class="d-inline-block align-middle">
+                                    <img src="{% static 'dist/assets/images/user/avatar-2.jpg' %}" style="border-radius: 50%; width: 50px; height: 50px;" alt="user image" class="img-radius wid-40 align-top m-r-15">
+                                    <div class="d-inline-block">
+                                        <h6>{{patient.first_name}} {{patient.last_name}}</h6>
+                                        <p class="text-muted m-b-0">Assigned</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-right"><label class="badge badge-light-success">High</label></td>
+                        </tr>
+                        {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if patients_data.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ patients_data.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span> 
+                        </a>
+                    </li>
+                    {% endif %}
+            
+                    {% for page in patients_data.paginator.page_range %}
+                    {% if patients_data.number == page %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ page }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+            
+                    {% if patients_data.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ patients_data.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

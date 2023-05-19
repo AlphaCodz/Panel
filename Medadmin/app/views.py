@@ -16,10 +16,12 @@ def index(request):
     user_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
     doc_data_url = "https://medico-production-fa1c.up.railway.app/api/all/docs"
     patient_url = "https://medico-production-fa1c.up.railway.app/api/all/users"
+    assigned_patients = "https://medico-production-fa1c.up.railway.app/api/assigned/patients"
     
     user_response = requests.get(user_url, headers=headers)
     doc_data_url = requests.get(doc_data_url, headers=headers)
     patient_response = requests.get(patient_url, headers=headers)
+    assigned_patients_response = requests.get(assigned_patients, headers)
     
     if user_response.status_code == 200 and doc_data_url.status_code == 200:
         
@@ -27,12 +29,16 @@ def index(request):
         user_data = user_response.json().get('admin')
         doc_data = doc_data_url.json().get('doctors')
         patients_data = patient_response.json().get('patients')
+        assigned_patient = assigned_patients_response.json().get('data')
         
             # Total Number of Doctors    
         doc_count = len(doc_data)
         
             #Total Number of Patients
         patient_count = len(patients_data)
+        
+            #Total number of assigned patients
+        assigned_patients_count = len(assigned_patient) 
         
             # Paginate
         paginator = Paginator(doc_data, 7)
@@ -44,6 +50,7 @@ def index(request):
             "docs": page_obj,
             "total_no_of_docs": doc_count,
             "total_no_of_patients": patient_count,
+            "assigned_patients":assigned_patients_count,
             "patients_data": [],
             "current_page": page_obj.number,
             "total_pages": paginator.num_pages,
@@ -156,4 +163,3 @@ class Forms:
 
 def HospitalCardGenerator(request):
     return render(request, "sections/id_card.html")
-        

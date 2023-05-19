@@ -92,8 +92,8 @@
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <h4 class="text-c-yellow">$30200</h4>
-                                        <h6 class="text-muted m-b-0">All Earnings</h6>
+                                        <h4 class="text-c-yellow">N500K</h4>
+                                        <h6 class="text-muted m-b-0">Total Hospital Bills Paid</h6>
                                     </div>
                                     <div class="col-4 text-right">
                                         <i class="feather icon-bar-chart-2 f-28"></i>
@@ -103,7 +103,7 @@
                             <div class="card-footer bg-c-yellow">
                                 <div class="row align-items-center">
                                     <div class="col-9">
-                                        <p class="text-white m-b-0">% change</p>
+                                        <p class="text-white m-b-0">30%+ Rev </p>
                                     </div>
                                     <div class="col-3 text-right">
                                         <i class="feather icon-trending-up text-white f-16"></i>
@@ -117,8 +117,8 @@
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <h4 class="text-c-green">290+</h4>
-                                        <h6 class="text-muted m-b-0">Page Views</h6>
+                                        <h4 class="text-c-green">{{assigned_patients}}</h4>
+                                        <h6 class="text-muted m-b-0">Assigned Patients</h6>
                                     </div>
                                     <div class="col-4 text-right">
                                         <i class="feather icon-file-text f-28"></i>
@@ -143,7 +143,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-8">
                                         <h4 class="text-c-red">145</h4>
-                                        <h6 class="text-muted m-b-0">Task</h6>
+                                        <h6 class="text-muted m-b-0">Generated Hospital Cards</h6>
                                     </div>
                                     <div class="col-4 text-right">
                                         <i class="feather icon-calendar f-28"></i>
@@ -370,37 +370,6 @@
                                 {% endif %}
                             </ul>
                         </nav>
-                        <!-- <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                                {% if patients_data.has_previous %}
-                              <li class="page-item">
-                                <a class="page-link" href="?page={{ patients_data.previous_page_number }}" aria-label="Previous">
-                                    <span aria-hidden="true" class="current-page">&laquo;</span> 
-                                </a>
-                              </li>
-                              {% endif %}
-                    
-                               {% for page in patients_data.paginator.page_range %}
-                               {% if patients_data.number == page %} 
-                              <li class="page-item active">
-                                <a class="page-link" href="#">{{ page }}</a>
-                            </li>
-                                {% else %}
-                              <li class="page-item">
-                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
-                            </li>
-                                {% endif %}
-                                {% endfor %}
-
-                                {% if patients_data.has_next %}
-                              <li class="page-item">
-                                <a class="page-link" href="?page={{patients_data.next_page_number}}" aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                              {% endif %}
-                            </ul>
-                          </nav> -->
                     </div>
                 </div>
             </div>
