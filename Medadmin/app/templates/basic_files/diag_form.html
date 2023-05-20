@@ -34,6 +34,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5><strong>Diagnosis Form</strong></h5>
+                        {% include "basic_files/alerts.html" %}
                     </div>
                     <div class="card-body">
                         <form method="POST" action="">
@@ -42,7 +43,8 @@
                             <div class="col-sm-3">
                               <div class="form-group">
                                 <select class="form-select btn btn-outline-primary" name="patient_id" id="inputGroupSelect01" style="width: 300px;">
-                                {% include "basic_files/alerts.html" %}
+                               
+
                                   <option selected>Patients</option>
                                   {% for patient in patients %}
                                     <option id="patient_id" value="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</option>

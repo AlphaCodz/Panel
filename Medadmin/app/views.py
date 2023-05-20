@@ -158,56 +158,13 @@ def signin(request):
     return render(request, "basic_files/auth-signin.html")
 
 
-# class DiagnosisFormView(View):
-#     def post(self, request):
-#         token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"  # Your token here
-#         headers = {'Authorization': f'Bearer {token}'}
-#         users_url = "https://medico-production-fa1c.up.railway.app/api/all/users"
-        
-#         # Retrieve the list of patients from the API
-#         response = requests.get(users_url, headers=headers)
-#         if response.status_code == 200:
-#             users = response.json().get("patients")
-#         else:
-#             # Handle the error case when the API request fails
-#             users = []
-        
-#         # Extract the necessary data from the POST request
-#         patient_id = request.POST.get("patient_id")
-#         prescription = request.POST.get("prescription")
-#         additional_notes = request.POST.get("additional_notes")
-#         diagnose_url = f"https://medico-production-fa1c.up.railway.app/api/create/diag/{patient_id}"
-        
-#         # Prepare the payload for the POST request
-#         payload = {
-#             "patient_id": patient_id,
-#             "prescription": prescription,
-#             "additional_notes": additional_notes
-#         }
-        
-#         # Make the POST request to submit the diagnosis
-#         response = requests.post(diagnose_url, json=payload)
-#         if response.status_code == 200:
-#             messages.success(request, "Diagnosed successfully")
-#             return redirect("app:diagnosis_form")
-#         else:
-#             error_message = response.json().get('error')
-#             messages.error(request, error_message)
-#             print(f"ERROR: {error_message}")
-#             return redirect("app:diagnosis_form")
-        
-#         # Pass the users data to the template context
-#         context = {
-#             "patients": users
-#         }
-        
-#         return render(request, "basic_files/diag_form.html", context)
 
 class Forms:
     def diagnosis_form(request):
         token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
         headers = {'Authorization': f'Bearer {token}'}
 
+        admin_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
         users = "https://medico-production-fa1c.up.railway.app/api/all/users"
 
         if request.method == "POST":
@@ -223,29 +180,36 @@ class Forms:
                 "additional_notes": additional_notes,
                 "diagnosis": diagnosis
             }
+
             resp = requests.post(diagnose_url, payload)
-            if resp.status_code == 200:
+
+            if resp.status_code == 201:
                 messages.success(request, "Diagnosed Successfully")
             else:
-                error_message = resp.json().get('error')
-                if error_message:
-                    messages.error(request, error_message)
-                    print(f"ERROR: {error_message}")
-                else:
-                    messages.error(request, "An error occured during diagnosis")
-            return redirect("app:diagnosis_form")
+                error_message = resp.json().get("error")
+                messages.error(request, error_message)
+                # print(f"Login failed: {error_message}")
 
         response = requests.get(users, headers)
+        admin = requests.get(admin_url, headers)
+
         if response.status_code == 200:
             users = response.json().get("patients")
+            print(f"PATIENTS {response.status_code}")
+
+        if admin.status_code == 200:
+            admin_data = admin.json().get("admin")
+            return admin.content()
+            print(f"ADMIN {admin.status_code}")
+        else:
+            admin_data = []
 
         context = {
-            "patients": users
+            "patients": users,
+            "user": admin_data,
         }
 
         return render(request, "basic_files/diag_form.html", context)
 
-    
-
-def HospitalCardGenerator(request):
-    return render(request, "sections/id_card.html")
+    def HospitalCardGenerator(request):
+        return render(request, "sections/id_card.html")
