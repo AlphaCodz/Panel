@@ -204,10 +204,6 @@ class Forms:
             users = response.json().get("patients")
             print(f"PATIENTS {response.status_code}")
 
-        # if admin.status_code == 200:
-        #     admin_data = admin.json().get("admin")
-        # else:
-        #     admin_data = []
 
         context = {
             "patients": users,
@@ -220,4 +216,8 @@ class Forms:
         return render(request, "sections/id_card.html")
 
 class Notification(ListView):
-    pass
+    template_name = "sections/notification_list.html"
+    
+    def get_queryset(self):
+        response = requests.get("")
+    
