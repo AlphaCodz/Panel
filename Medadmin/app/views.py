@@ -219,5 +219,6 @@ class Notification(ListView):
     template_name = "sections/notification_list.html"
     
     def get_queryset(self):
-        response = requests.get("")
+        pass
+    # I'M TRYING TO GET NOTIFICATIONS FOR NEWLY CREATED APPOINTMENTS, NEWLY SUBMITTED DIAGNOSIS AND CARD GENERATORS
     
