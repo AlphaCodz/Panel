@@ -166,6 +166,13 @@ class Forms:
 
         admin_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
         users = "https://medico-production-fa1c.up.railway.app/api/all/users"
+        
+        admin = requests.get(admin_url, headers)
+        
+        if admin.status_code == 200:
+            admin_data = admin.json().get("admin")
+        else:
+            admin_data = []
 
         if request.method == "POST":
             patient_id = request.POST.get("patient_id")
@@ -191,18 +198,16 @@ class Forms:
                 # print(f"Login failed: {error_message}")
 
         response = requests.get(users, headers)
-        admin = requests.get(admin_url, headers)
+        
 
         if response.status_code == 200:
             users = response.json().get("patients")
             print(f"PATIENTS {response.status_code}")
 
-        if admin.status_code == 200:
-            admin_data = admin.json().get("admin")
-            return admin.content()
-            print(f"ADMIN {admin.status_code}")
-        else:
-            admin_data = []
+        # if admin.status_code == 200:
+        #     admin_data = admin.json().get("admin")
+        # else:
+        #     admin_data = []
 
         context = {
             "patients": users,
