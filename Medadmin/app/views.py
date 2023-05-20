@@ -218,3 +218,6 @@ class Forms:
 
     def HospitalCardGenerator(request):
         return render(request, "sections/id_card.html")
+
+class Notification(ListView):
+    pass
