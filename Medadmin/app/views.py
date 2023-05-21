@@ -7,57 +7,61 @@ from django.contrib.auth.hashers import check_password
 from django.core.paginator import Paginator
 from django.views.decorators.cache import cache_page
 from django.views import View
+from django.views.generic import ListView
 # Create your views here.
 
-@cache_page(60 * 15, key_prefix='/app/')
+@cache_page(60 * 30, key_prefix='/app/')
 def index(request):
-    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
-    headers = {'Authorization' : f'Bearer {token}'}
-    
-    user_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
+    # user_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
     doc_data_url = "https://medico-production-fa1c.up.railway.app/api/all/docs"
     patient_url = "https://medico-production-fa1c.up.railway.app/api/all/users"
     assigned_patients = "https://medico-production-fa1c.up.railway.app/api/assigned/patients"
     
-    user_response = requests.get(user_url, headers=headers)
-    doc_data_url = requests.get(doc_data_url, headers=headers)
-    patient_response = requests.get(patient_url, headers=headers)
-    assigned_patients_response = requests.get(assigned_patients, headers)
+    # user_response = requests.get(user_url)
+    doc_data_url = requests.get(doc_data_url)
+    patient_response = requests.get(patient_url)
+    assigned_patients_response = requests.get(assigned_patients)
     
-    if user_response.status_code == 200 and doc_data_url.status_code == 200:
-        
+    if (
+        # user_response.status_code == 200 and
+        doc_data_url.status_code == 200 and
+        patient_response.status_code == 200 and
+        assigned_patients_response.status_code == 200
+    ):
         # Pagination
-        user_data = user_response.json().get('admin')
+        # user_data = user_response.json().get('admin')
         doc_data = doc_data_url.json().get('doctors')
         patients_data = patient_response.json().get('patients')
         assigned_patient = assigned_patients_response.json().get('data')
         
-            # Total Number of Doctors    
+        # Total Number of Doctors    
         doc_count = len(doc_data)
         
-            #Total Number of Patients
+        # Total Number of Patients
         patient_count = len(patients_data)
         
-            #Total number of assigned patients
+        # Total number of assigned patients
         assigned_patients_count = len(assigned_patient) 
         
-            # Paginate
+        # Paginate
         paginator = Paginator(doc_data, 7)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         
         context = {
-            "user": user_data,
+            # "user": user_data,
             "docs": page_obj,
             "total_no_of_docs": doc_count,
             "total_no_of_patients": patient_count,
-            "assigned_patients":assigned_patients_count,
+            "assigned_patients": assigned_patients_count,
             "patients_data": [],
             "current_page": page_obj.number,
             "total_pages": paginator.num_pages,
             "has_previous": page_obj.has_previous(),
             "has_next": page_obj.has_next()
         }
+        
+        # Additional check for patient_response status code
         if patient_response.status_code == 200:
             patients_data = patient_response.json().get('patients')
             
@@ -81,10 +85,13 @@ def index(request):
                     "is_admin": patient.get('is_admin'),
                 }
                 context["patients_data"].append(data)
+                
             return render(request, "basic_files/index.html", context)
-        else:
-            print("Error: Failed to Retrieve data")
-            return HttpResponse("Failed to retrieve data")
+        
+    # Error handling for failed data retrieval
+    print("Error: Failed to retrieve data")
+    return HttpResponse("Failed to retrieve data", status=500)
+
     
     
 def signup(request):
@@ -161,13 +168,13 @@ def signin(request):
 
 class Forms:
     def diagnosis_form(request):
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
-        headers = {'Authorization': f'Bearer {token}'}
+        # token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
+        # headers = {'Authorization': f'Bearer {token}'}
 
         admin_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
         users = "https://medico-production-fa1c.up.railway.app/api/all/users"
         
-        admin = requests.get(admin_url, headers)
+        admin = requests.get(admin_url)
         
         if admin.status_code == 200:
             admin_data = admin.json().get("admin")
@@ -197,7 +204,7 @@ class Forms:
                 messages.error(request, error_message)
                 # print(f"Login failed: {error_message}")
 
-        response = requests.get(users, headers)
+        response = requests.get(users)
         
 
         if response.status_code == 200:
@@ -219,6 +226,30 @@ class Notification(ListView):
     template_name = "sections/notification_list.html"
     
     def get_queryset(self):
-        pass
-    # I'M TRYING TO GET NOTIFICATIONS FOR NEWLY CREATED APPOINTMENTS, NEWLY SUBMITTED DIAGNOSIS AND CARD GENERATORS
+        # token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
+        # headers = {'Authorization': f'Bearer {token}'}
+         # I'M TRYING TO GET NOTIFICATIONS FOR NEWLY CREATED APPOINTMENTS, NEWLY SUBMITTED DIAGNOSIS AND CARD GENERATORS
+        admin = "https://medico-production-fa1c.up.railway.app/api/admin/data"
+        url = "https://medico-production-fa1c.up.railway.app/api/notify"
+        
+        admin_response = requests.get(admin)
+        url_response = requests.get(url)
+        if admin_response.status_code == 200 and url_response.status_code == 200:
+            new_user = url_response.json().get('new_users', [])
+            new_docs = url_response.json().get('new_docs', [])
+        else:
+            new_user = []
+            new_docs = []
+
+        context = {
+            'new_users': new_user,
+            'new_docs': new_docs
+        }
+        return context
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["data"] = self.get_queryset()
+        return context
+    
+                

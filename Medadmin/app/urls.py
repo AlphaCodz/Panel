@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from . import views
-from .views import Forms
+from .views import Forms, Notification
 
 
 # from .views import PatientsList
@@ -13,5 +13,6 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("diagnosis/", Forms.diagnosis_form, name="diagnosis_form"),
     path("card/", Forms.HospitalCardGenerator, name="card"),
+    path("notifications/", Notification.as_view(), name="notification")
     # path("", PatientsList.as_view(), name="list")
 ]
