@@ -216,40 +216,34 @@ class Forms:
             "patients": users,
             "user": admin_data,
         }
+        
+        url = "https://medico-production-fa1c.up.railway.app/api/notify"
+        response = requests.get(url)
+        
+        new_users = response.json().get('new_users')
+        print(new_users[0]["first_name"])
 
         return render(request, "basic_files/diag_form.html", context)
 
     def HospitalCardGenerator(request):
         return render(request, "sections/id_card.html")
 
-class Notification(ListView):
-    template_name = "sections/notification_list.html"
-    
-    def get_queryset(self):
-        # token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
-        # headers = {'Authorization': f'Bearer {token}'}
-         # I'M TRYING TO GET NOTIFICATIONS FOR NEWLY CREATED APPOINTMENTS, NEWLY SUBMITTED DIAGNOSIS AND CARD GENERATORS
-        admin = "https://medico-production-fa1c.up.railway.app/api/admin/data"
-        url = "https://medico-production-fa1c.up.railway.app/api/notify"
-        
-        admin_response = requests.get(admin)
-        url_response = requests.get(url)
-        if admin_response.status_code == 200 and url_response.status_code == 200:
-            new_user = url_response.json().get('new_users', [])
-            new_docs = url_response.json().get('new_docs', [])
-        else:
-            new_user = []
-            new_docs = []
 
-        context = {
-            'new_users': new_user,
-            'new_docs': new_docs
-        }
-        return context
+def notifications(request):
+    url = "https://medico-production-fa1c.up.railway.app/api/notify"
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["data"] = self.get_queryset()
-        return context
-    
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        new_users = data.get('new_users', [])
+        new_docs = data.get('new_docs', [])
+    else:
+        new_users = []
+        new_docs = []
+
+    context = {
+        'new_users': new_users,
+        'new_docs': new_docs
+    }
+    return render(request, "sections/notifications.html", context)
                 
