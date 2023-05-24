@@ -12,7 +12,7 @@ urlpatterns = [
     path("signin/", views.signin, name="signin"),
     path("signup/", views.signup, name="signup"),
     path("diagnosis/", Forms.diagnosis_form, name="diagnosis_form"),
-    path("card/", Forms.HospitalCardGenerator, name="card"),
+    path("card/", views.hospital_card_generator, name="card"),
     path("notifications/", views.notifications, name="notification")
     # path("", PatientsList.as_view(), name="list")
 ]

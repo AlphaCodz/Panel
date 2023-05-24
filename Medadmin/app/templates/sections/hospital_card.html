@@ -1,67 +1,74 @@
+{% extends "base/header.html" %}
 {% load static %}
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                    <h5><strong>Hospital Card Generator</strong></h5>
-                </div>
-<div class="card-body">
-    <form class="row">
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label for="full_name" class="floating-label">Patient's Full Name</label>
-            <input type="text" class="form-control" id="inputEmail4" placeholder="e.g Olushola Adamu Tochuckwu">
-        </div>
-    </div>
+{% block body %}
+<section class="pcoded-main-container">
+  <div class="pcoded-content">
+      <!-- [ breadcrumb ] start -->
+      <div class="page-header">
+          <div class="page-block">
+              <div class="row align-items-center">
+                  <div class="col-md-12">
+                      <div class="page-header-title">
+                          <h5 class="m-b-10">Medical Forms</h5>
+                      </div>
+                      <ul class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="{% url 'app:index' %}"><i class="feather icon-home"></i></a></li>
+                          <li class="breadcrumb-item"><a href="{% url 'app:diagnosis_form' %}">Diagnostics</a></li>
+                          <li class="breadcrumb-item"><a href="{% url 'app:card' %}">Card/a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="card">
+                  <div class="card-header">
+                      <h5><strong>Generate Hospital Card</strong></h5>
+                  </div>
+                  <div class="card-body">
+                      <form method="POST" action="">
+                          {% csrf_token %}
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <select class="form-select btn btn-outline-primary" name="patient_id" id="inputGroupSelect01" style="width: 300px;">
+                             
 
-<div class="col-sm-4">
-    <div class="form-group">
-      <label for="DOB" class="floating-label">Date Of Birth</label>
-      <input type="date" class="form-control" id="dob" placeholder="e.g 1993-04-19">
+                                <option selected>Patients</option>
+                                {% for patient in patients %}
+                                  <option id="patient_id" value="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="floating-label" for="Branch">Hospital Branch</label>
+                              <input type="text" name="hospital_branch" class="form-control" id="hospital_branch" placeholder="Hospital Branch">
+                            
+                          </div>
+                        </div>
+                          </div>
+                          </div>
+                          <div class="col-8">
+                            <button type="submit" class="btn btn-primary" name="card_submit">Submit</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+    
+      </div>
     </div>
-</div>
-
-<div class="col-sm-4">
-  <div class="form-group">
-    <select id="inputState" class="form-select btn btn-outline-primary">
-    <option selected>GENDER</option>
-    <option>FEMALE</option>
-    <option>MALE</option>
-  </select>
-  </div>
-  
-</div>
-
-<div class="col-sm-4">
-    <div class="form-group">
-      <label for="Branch" class="floating-label">Hospital Branch</label>
-      <input type="text" class="form-control" id="Hospital_Branch" placeholder="Medico Healthcare B12">
-    </div>
-</div>
-
-<div class="col-sm-4">
-    <div class="form-group">
-      <label for="MRN" class="floating-label">Medical Record Number</label>
-      <input type="password" class="form-control" id="mrn" placeholder="P/28/13/JD3193J">
-    </div>
-</div>
-
-<div class="col-sm-4">
-    <div class="form-group">
-      <label for="Contact" class="floating-label">Contact Information</label>
-      <input type="tel" class="form-control" id="contact" placeholder="e.g +2349028377482">
-    </div>
-</div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </form>
-</div>
-</div>
-</div>
-</div>
-
-<!-- <script src="{% static 'dist/assets/js/vendor-all.min.js' %}"></script>
+      </section>
+      {% endblock body %}
+<script src="{% static 'dist/assets/js/vendor-all.min.js' %}"></script>
 <script src="{% static 'dist/assets/js/plugins/bootstrap.min.js ' %}"></script>
 <script src="{% static 'dist/assets/js/ripple.js' %}"></script>
-<script src="{% static 'dist/assets/js/pcoded.min.js' %}"></script> -->
+<script src="{% static 'dist/assets/js/pcoded.min.js' %}"></script>

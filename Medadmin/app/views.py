@@ -8,8 +8,10 @@ from django.core.paginator import Paginator
 from django.views.decorators.cache import cache_page
 from django.views import View
 from django.views.generic import ListView
+import json
 # Create your views here.
 
+# AJAX 
 @cache_page(60 * 30, key_prefix='/app/')
 def index(request):
     # user_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
@@ -164,69 +166,34 @@ def signin(request):
              
     return render(request, "basic_files/auth-signin.html")
 
+def hospital_card_generator(request):
+    users = "https://medico-production-fa1c.up.railway.app/api/all/users"
 
+    if request.method == "POST" and "card_submit" in request.POST:
+        patient_id = request.POST.get("patient_id")
+        hospital_branch = request.POST.get("hospital_branch")
+        card_url = f"https://medico-production-fa1c.up.railway.app/api/create/card/{patient_id}"
 
-class Forms:
-    def diagnosis_form(request):
-        # token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxMDMyMzk3MDgxMiwiaWF0IjoxNjgzOTcwODEyLCJqdGkiOiI1ZjMwNzE4Y2Y3NDg0MGNmYTRmOTUxY2QwYzEzN2I3NiIsInVzZXJfaWQiOjg2fQ.dvgBFacSU6w4z5AHN0MQls6DvKEk-PwrbX1tgikR8Wk"
-        # headers = {'Authorization': f'Bearer {token}'}
-
-        admin_url = "https://medico-production-fa1c.up.railway.app/api/admin/data"
-        users = "https://medico-production-fa1c.up.railway.app/api/all/users"
-        
-        admin = requests.get(admin_url)
-        
-        if admin.status_code == 200:
-            admin_data = admin.json().get("admin")
-        else:
-            admin_data = []
-
-        if request.method == "POST":
-            patient_id = request.POST.get("patient_id")
-            prescription = request.POST.get("prescription")
-            additional_notes = request.POST.get("additional_notes")
-            diagnosis = request.POST.get("diagnosis")
-            diagnose_url = f"https://medico-production-fa1c.up.railway.app/api/create/diag/{patient_id}"
-
-            payload = {
-                "patient_id": patient_id,
-                "prescription": prescription,
-                "additional_notes": additional_notes,
-                "diagnosis": diagnosis
-            }
-
-            resp = requests.post(diagnose_url, payload)
-
-            if resp.status_code == 201:
-                messages.success(request, "Diagnosed Successfully")
-            else:
-                error_message = resp.json().get("error")
-                messages.error(request, error_message)
-                # print(f"Login failed: {error_message}")
-
-        response = requests.get(users)
-        
-
-        if response.status_code == 200:
-            users = response.json().get("patients")
-            print(f"PATIENTS {response.status_code}")
-
-
-        context = {
-            "patients": users,
-            "user": admin_data,
+        payload = {
+            "patient_id": patient_id,
+            "hospital_branch": hospital_branch
         }
-        
-        url = "https://medico-production-fa1c.up.railway.app/api/notify"
-        response = requests.get(url)
-        
-        new_users = response.json().get('new_users')
-        print(new_users[0]["first_name"])
+        resp = requests.post(card_url, payload)
 
-        return render(request, "basic_files/diag_form.html", context)
+        if resp.status_code == 200:
+            messages.success(request, "Card Generated Successfully")
+            print(f"ERROR: {resp.status_code}")
+        else:
+            messages.error(request, "ERROR")
+            print(f"ERROR: {resp.status_code}")
+    return redirect("app:card")
 
-    def HospitalCardGenerator(request):
-        return render(request, "sections/id_card.html")
+    context = {
+        "patients": users,
+    }
+    return render(request, "sections/hospital_card.html", context)
+
+
 
 
 def notifications(request):
@@ -247,3 +214,52 @@ def notifications(request):
     }
     return render(request, "sections/notifications.html", context)
                 
+                
+                
+@cache_page(60 * 30, key_prefix='/app/diagnosis/')
+class Forms:
+    def diagnosis_form(request):
+        
+        users = "https://medico-production-fa1c.up.railway.app/api/all/users"
+        if request.method == "POST":
+            patient_id = request.POST.get("patient_id")
+            prescription = request.POST.get("prescription")
+            additional_notes = request.POST.get("additional_notes")
+            diagnosis = request.POST.get("diagnosis")
+            diagnose_url = f"https://medico-production-fa1c.up.railway.app/api/create/diag/{patient_id}"
+
+            payload = {
+                "patient_id": patient_id,
+                "prescription": prescription,
+                "additional_notes": additional_notes,
+                "diagnosis": diagnosis
+            }
+
+            resp = requests.post(diagnose_url, payload)
+
+            if resp.status_code == 201:
+                messages.success(request, "Diagnosed Successfully")
+            else:
+                # error_message = resp.json().get("error")
+                messages.error(request, "ERROR")
+                # print(f"Login failed: {error_message}")
+
+        response = requests.get(users)
+        
+
+        if response.status_code == 200:
+            users = response.json().get("patients")
+            # print(f"PATIENTS {response.status_code}")
+
+
+        context = {
+            "patients": users,
+            # "user": admin_data,
+        }
+        
+        url = "https://medico-production-fa1c.up.railway.app/api/notify"
+        response = requests.get(url)
+        
+        new_users = response.json().get('new_users')
+
+        return render(request, "basic_files/diag_form.html", context)
