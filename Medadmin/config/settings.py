@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -95,6 +96,14 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "https://panel-production-ea5e.up.railway.app",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://panel-production-ea5e.up.railway.app",
+]
 
 
 # Password validation
