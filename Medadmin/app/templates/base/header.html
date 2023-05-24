@@ -62,7 +62,6 @@
                                 <li><a href="{% url 'app:signin' %}" target="_blank">Sign in</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a href="sample-page.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>
     
                     </ul>
                 </div>
@@ -128,13 +127,13 @@
                                         </li>
                                         <li class="notification">
                                             <div class="media">
-                                                {% for doc in new_docs %}
+                                               
                                                 <img class="img-radius" src="{% static 'dist/assets/images/user/avatar-2.jpg' %}" alt="Generic placeholder image">
                                                 <div class="media-body">
-                                                    <p><strong>{{doc.first_name}} {{doc.last_name}}</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
-                                                    <p>Prchace New Theme and make payment</p>
+                                                    <p><strong>Admin</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
+                                                    <p>Admin Just Logged in</p>
                                                 </div>
-                                                {% endfor %}
+                                               
                                             </div>
                                         </li>
                                         <li class="notification">
@@ -156,9 +155,6 @@
                                             </div>
                                         </li>
                                     </ul>
-                                    <div class="noti-footer">
-                                        <a href="#!">show all</a>
-                                    </div>
                                 </div>
                             </div>
                             </li>
@@ -170,15 +166,13 @@
                                 <div class="dropdown-menu dropdown-menu-right profile-notification">
                                     <div class="pro-head">
                                         <img src="{% static 'dist/assets/images/user/avatar-1.jpg' %}" class="img-radius" alt="User-Profile-Image">
-                                        <span>John Doe</span>
-                                        <a href="auth-signin.html" class="dud-logout" title="Logout">
+                                        <span>Admin</span>
+                                        <a href="{% url 'app:signin' %}" class="dud-logout" title="Logout">
                                             <i class="feather icon-log-out"></i>
                                         </a>
                                     </div>
 									<ul class="pro-body">
-										<li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-										<li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-										<li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+										<li><a href="{% url 'app:signin' %}" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
 									</ul>
 								</div>
 							</div>
