@@ -169,7 +169,7 @@ def signin(request):
 def hospital_card_generator(request):
     users = "https://medico-production-fa1c.up.railway.app/api/all/users"
 
-    if request.method == "POST" and "card_submit" in request.POST:
+    if request.method == "POST":
         patient_id = request.POST.get("patient_id")
         hospital_branch = request.POST.get("hospital_branch")
         card_url = f"https://medico-production-fa1c.up.railway.app/api/create/card/{patient_id}"
@@ -183,10 +183,14 @@ def hospital_card_generator(request):
         if resp.status_code == 200:
             messages.success(request, "Card Generated Successfully")
             print(f"ERROR: {resp.status_code}")
+            redirect("app:card")
         else:
             messages.error(request, "ERROR")
             print(f"ERROR: {resp.status_code}")
-    return redirect("app:card")
+            return redirect("app:card")
+    response = requests.get(users)    
+    if response.status_code == 200:
+        users = response.json().get("patients")
 
     context = {
         "patients": users,
